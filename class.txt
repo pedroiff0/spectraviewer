@@ -1,0 +1,6 @@
+sobject_id	spectral_type	toomre_class	tinsley_wallerstein_class
+140709005801117	A	disk	thin_disk
+140114004701164	F	disk	thin_disk
+131220004401099	G	disk	thin_disk
+131217001801042	K	disk	thick_disk
+131216001101090	M	disk	thick_disk

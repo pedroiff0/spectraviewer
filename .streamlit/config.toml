@@ -1,0 +1,16 @@
+[theme]
+primaryColor = "#FF5C4D"
+backgroundColor = "#F0F4FB"
+secondaryBackgroundColor = "#E8EFF7"
+textColor = "#1F2937"
+
+[client]
+toolbarMode = "minimal"
+
+[logger]
+level = "info"
+
+[server]
+maxUploadSize = 200
+enableXsrfProtection = false
+headless = true
