@@ -395,7 +395,7 @@ def build_plot(sobject_id: int, spectra: list[dict]) -> go.Figure:
 		height=1100,
 		margin={"l": 55, "r": 210, "t": 100, "b": 55},
 		title={
-			"text": f"Galah DR4 Spectra Viewer · sobject_id {sobject_id}",
+			"text": f"Spectra Viewer · sobject_id {sobject_id}",
 			"x": 0.02,
 			"xanchor": "left",
 			"font": {"size": 24},
@@ -584,8 +584,9 @@ def build_plot_with_lines(
 st.markdown(
 	"""
 	<div class="hero">
-		<h1>Galah DR4 Spectra Viewer</h1>
-		<p>Pesquise um <strong>sobject_id</strong> para carregar e visualizar as quatro bandas do espectro correspondente.</p>
+		<h1>Spectra Viewer</h1>
+		<p>Search for <strong>sobject_id</strong> to load and visualize the four bands of the corresponding spectrum.</p>
+  		<p>Disclaimer: This is a simple viewer for demonstration purposes only, and it's only available one of each AFGKM spectral type.</p>
 	</div>
 	""",
 	unsafe_allow_html=True,
@@ -593,9 +594,24 @@ st.markdown(
 
 with st.sidebar:
 	st.markdown("### Search")
-	default_id = "131216001101090"
+	
+	# Load available sobject_ids from class.txt
+	df_classes = pd.read_csv("class.txt", sep="\t")
+	id_options = [
+		f"{int(row['sobject_id'])} ({row['spectral_type']})"
+		for _, row in df_classes.iterrows()
+	]
+	default_idx = 0  # First option (A-type star)
+	
 	with st.form("search_form"):
-		input_value = st.text_input("sobject id", value=default_id, help="Digite um sobject_id de 15 digitos.")
+		selected = st.selectbox(
+			"Select Star",
+			id_options,
+			index=default_idx,
+			help="Selecione uma estrela da classificação espectral (O, B, A, F, G, K, M)"
+		)
+		# Extract sobject_id from selected string (format: "ID (type)")
+		input_value = int(selected.split()[0])
 		submitted = st.form_submit_button("Search", type="primary", width='stretch')
 
 	st.markdown("---")
@@ -629,10 +645,12 @@ with st.sidebar:
 
 	st.markdown("---")
 	st.markdown("### About")
-	st.write("This viewer reads the GALAH DR4 FITS spectra directly from the local dataset.")
+	st.caption(f"This repository is open-source and available on GitHub: https://github.com/pedroiff0/spectraviewer")
+	st.write("This viewer reads the joint of GNSC and GALAH DR4 FITS spectra directly from the local dataset. For more info, please check: https://sab-astro.org.br/wp-content/uploads/2026/04/PedroAndrade.pdf")
 	if not lines_df.empty:
-		st.caption(f"Loaded {len(lines_df)} reference lines; using local file if present.")
-	st.caption(f"Data root: {SPECTRA_ROOT}")
+		st.caption(f"Loaded {len(lines_df)} reference lines; using local file if present. Source: https://github.com/svenbuder/GALAH_DR4/blob/main/spectrum_analysis/spectrum_masks/important_lines")
+		st.caption(f"Special thanks to the GALAH team for providing the data and line lists, which made this viewer possible!")
+	
 
 
 def render_intro() -> None:
