@@ -12,7 +12,7 @@ from astropy.io import fits
 
 
 st.set_page_config(
-	page_title="Galah DR4 Spectra Viewer",
+	page_title="Spectra Viewer",
 	page_icon="📈",
 	layout="wide",
 	initial_sidebar_state="expanded",
@@ -133,7 +133,7 @@ def extract_wavelength(header: fits.Header, n_pixels: int) -> np.ndarray:
 def read_band_spectrum(sobject_id: int, ccd: int) -> dict:
 	path = resolve_spectrum_path(sobject_id, ccd)
 	if path is None:
-		raise FileNotFoundError(f"Arquivo nao encontrado para CCD {ccd}.")
+		raise FileNotFoundError(f"File not found for CCD {ccd}.")
 
 	with fits.open(path, memmap=False) as hdul:
 		header = hdul[0].header
@@ -161,12 +161,12 @@ def load_star_spectra(sobject_id: int) -> list[dict]:
 
 	if not spectra:
 		raise FileNotFoundError(
-			f"Nenhum FITS encontrado para o sobject_id {sobject_id}."
+			f"None FITS files found for sobject_id {sobject_id}."
 		)
 
 	if missing_ccds:
 		raise FileNotFoundError(
-			f"Faltam bandas para o sobject_id {sobject_id}: CCDs {missing_ccds}."
+			f"Missing FITS files for sobject_id {sobject_id}: CCDs {missing_ccds}."
 		)
 
 	return spectra
@@ -390,30 +390,56 @@ def build_plot(sobject_id: int, spectra: list[dict]) -> go.Figure:
 			col=1,
 		)
 
+	# fig.update_layout(
+	# 	template="plotly_white",
+	# 	height=1120,
+	# 	margin={"l": 25, "r": 25, "t": 235, "b": 55},
+	# 	title={"text": f"Spectrum for sobject_id {sobject_id}", "x": 0.5, "xanchor": "center", "yanchor": "top", "y": 0.95, "font": {"size": 20, "family": "Trebuchet MS, Verdana, sans-serif"}},
+  	# 	hovermode="x unified",
+	# 	font={"family": "Trebuchet MS, Verdana, sans-serif"},
+	# 	legend={
+	# 		"orientation": "h",
+	# 		"yanchor": "top",
+	# 		"y": 1.15,
+	# 		"xanchor": "center",
+	# 		"x": 0.5,
+	# 		"bgcolor": "rgba(255,255,255,0.86)",
+	# 		"bordercolor": "rgba(30,41,59,0.12)",
+	# 		"borderwidth": 1,
+	# 		"font": {"size": 10},
+	# 		"entrywidthmode": "fraction",
+	# 		"entrywidth": 0.30,
+	# 		"itemsizing": "constant",
+	# 		"tracegroupgap": 3,
+	# 		"groupclick": "togglegroup",
+	# 	},
+	# )
+
 	fig.update_layout(
-		template="plotly_white",
-		height=1100,
-		margin={"l": 55, "r": 210, "t": 100, "b": 55},
-		title={
-			"text": f"Spectra Viewer · sobject_id {sobject_id}",
-			"x": 0.02,
-			"xanchor": "left",
-			"font": {"size": 24},
-		},
-		hovermode="x unified",
-		font={"family": "Trebuchet MS, Verdana, sans-serif"},
-		legend={
-			"orientation": "v",
-			"yanchor": "top",
-			"y": 1.0,
-			"xanchor": "left",
-			"x": 1.01,
-			"bgcolor": "rgba(255,255,255,0.86)",
-			"bordercolor": "rgba(30,41,59,0.12)",
-			"borderwidth": 1,
-			"groupclick": "togglegroup",
-		},
-	)
+        template="plotly_white",
+        height=1120,
+        margin={"l": 25, "r": 25, "t": 300, "b": 55},
+        title={"text": f"Spectrum for sobject_id {sobject_id}", "x": 0.5, "xanchor": "center", "yanchor": "top", "y": 0.98, "font": {"size": 20, "family": "Trebuchet MS, Verdana, sans-serif"}},
+        hovermode="x unified",
+        font={"family": "Trebuchet MS, Verdana, sans-serif"},
+        legend={
+            "orientation": "h",
+            "yanchor": "top",
+            "y": 1.33,
+            "xanchor": "center",
+            "x": 0.5,
+            "bgcolor": "rgba(255,255,255,0.86)",
+            "bordercolor": "rgba(30,41,59,0.12)",
+            "borderwidth": 1,
+            "font": {"size": 10},
+            # --- MUDANÇAS PARA RESPONSIVIDADE AQUI ---
+            "entrywidthmode": "pixels", # Mudado de fraction para pixels
+            "entrywidth": 250,          # Define um tamanho mínimo por item em vez de % da tela
+            "itemsizing": "constant",
+            "tracegroupgap": 3,
+            "groupclick": "togglegroup",
+        },
+    )
 
 	for axis_idx in range(1, 5):
 		fig.update_yaxes(title_text="Normalised Flux", row=axis_idx, col=1, zeroline=False)
@@ -608,7 +634,7 @@ with st.sidebar:
 			"Select Star",
 			id_options,
 			index=default_idx,
-			help="Selecione uma estrela da classificação espectral (O, B, A, F, G, K, M)"
+			help="Select a star within the classification (O, B, A, F, G, K, M)"
 		)
 		# Extract sobject_id from selected string (format: "ID (type)")
 		input_value = int(selected.split()[0])
@@ -645,10 +671,10 @@ with st.sidebar:
 
 	st.markdown("---")
 	st.markdown("### About")
-	st.caption(f"This repository is open-source and available on GitHub: https://github.com/pedroiff0/spectraviewer")
-	st.write("This viewer reads the joint of GNSC and GALAH DR4 FITS spectra directly from the local dataset. For more info, please check: https://sab-astro.org.br/wp-content/uploads/2026/04/PedroAndrade.pdf")
+	st.caption("This repository is open-source and available on [GitHub](https://github.com/pedroiff0/spectraviewer)")
+	st.write("This viewer reads the joint of GNSC and GALAH DR4 FITS spectra directly from the local dataset. For more info, please check: [SAB - inProceedings](https://sab-astro.org.br/wp-content/uploads/2026/04/PedroAndrade.pdf)")
 	if not lines_df.empty:
-		st.caption(f"Loaded {len(lines_df)} reference lines; using local file if present. Source: https://github.com/svenbuder/GALAH_DR4/blob/main/spectrum_analysis/spectrum_masks/important_lines")
+		st.caption(f"Loaded {len(lines_df)} reference lines; using local file if present. Source: [GALAH DR4 Github](https://github.com/svenbuder/GALAH_DR4/blob/main/spectrum_analysis/spectrum_masks/important_lines)")
 		st.caption(f"Special thanks to the GALAH team for providing the data and line lists, which made this viewer possible!")
 	
 
@@ -705,7 +731,7 @@ if submitted:
 	try:
 		sobject_id = int(str(input_value).strip())
 	except ValueError:
-		st.error("Digite um sobject_id valido com apenas numeros.")
+		st.error("Type a valid sobject_id (integer) to load the spectra.")
 		st.stop()
 
 	try:
@@ -729,7 +755,7 @@ if submitted:
 		apply_rv=False,
 		rv_kms=rv_kms,
 	)
-	st.plotly_chart(fig, width='stretch')
+	st.plotly_chart(fig, width='stretch', config={"responsive": True})
 
 else:
 	st.info("Use the search box on the left to load a star and plot its 4 CCD bands.")

@@ -1,141 +1,78 @@
 # SpectraViewer - GALAH DR4 Spectra Viewer
 
-Um visualizador interativo de espectros do catálogo GALAH DR4 (Gaia-ESO Spectroscopic Survey Data Release 4). A aplicação permite explorar espectros de estrelas de forma intuitiva, com suporte a múltiplas bandas, linhas espectrais de referência e classificação espectral automática.
+An interactive viewer for spectra from the GALAH DR4 catalog (Galactic Archeology with Hermes Data Release 4). The application allows you to explore stellar spectra intuitively, with support for multiple bands, reference spectral lines, and automatic spectral classification.
 
-## 🌟 Características
+## 🌟 Features
 
-- **Visualização Interativa**: Plotagem de 4 bandas espectrais (Blue, Green, Red, IR) com interface interativa
-- **Classificação Espectral**: Classificação automática das estrelas (O, B, A, F, G, K, M) baseada em temperatura efetiva
-- **Linhas Espectrais**: Overlay de linhas espectrais de referência do GALAH DR4 com grupos (CNO, Alpha-process, Iron-peak, etc.)
-- **Dados Locais**: Leitura direta de arquivos FITS do dataset local
-- **Metadados Estelares**: Exibição de informações como Teff, log(g), [Fe/H] e outras abundâncias
+- **Interactive Visualization**: Plotting of 4 spectral bands (Blue, Green, Red, IR) with interactive interface
+- **Spectral Lines**: Overlay of reference spectral lines from GALAH DR4 with groups (CNO, Alpha-process, Iron-peak, etc.)
+- **Local Data**: Direct reading of FITS files from the local dataset
+- **Stellar Metadata**: Display of information such as Teff, log(g), [Fe/H] and other abundances
 
-## 📋 Requisitos
+## 📋 Requirements
 
 - Python 3.8+
-- Datasets GALAH DR4 (FITS files)
+- GALAH DR4 Datasets (FITS files)
 
-## ⚙️ Instalação
+## ⚙️ Installation
 
-### 1. Clone o repositório
+### 1. Clone the repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/pedroiff0/spectraviewer.git
 cd spectraviewer
 ```
 
-### 2. Crie um ambiente virtual
+### 2. Create a virtual environment
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # macOS/Linux
-# ou
+# or
 venv\Scripts\activate  # Windows
 ```
 
-### 3. Instale as dependências
+### 3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-## 🚀 Uso
+## 🚀 Usage
 
-### Executar localmente
+### Run locally
 
 ```bash
 streamlit run spectraviewer.py
 ```
 
-A aplicação será aberta em `http://localhost:8501`.
+The application will open at `http://localhost:8501`.
 
-### Usar a aplicação
+### Using the application
 
-1. **Pesquisa**: Digite um `sobject_id` de 15 dígitos no campo de pesquisa
-2. **Visualizar Espectro**: O espectro das 4 bandas será carregado e exibido
-3. **Linhas Espectrais**: Selecione grupos de linhas espectrais para sobrepô-las ao espectro
-4. **Etiquetas**: Ative a opção "Show line labels" para mostrar identificações de linhas
+1. **Search**: Select a star from the dropdown menu
+2. **View Spectrum**: The 4-band spectrum will be loaded and displayed
+3. **Spectral Lines**: Select groups of spectral lines to overlay on the spectrum
+4. **Labels**: Enable the "Show line labels" option to display line identifications
 
-## 📊 Estrutura de Dados
+## 📊 Data Structure
 
-### Espectros FITS
-- Localização: `data/spectra/galah/dr4/spectra/hermes/com/{YYMMDD}/`
-- Arquivo: `{sobject_id}{CCD}.fits`
-- Bandas:
+### FITS Spectra
+- Location: `spectra/galah/dr4/spectra/hermes/com/{YYMMDD}/`
+- File: `{sobject_id}{CCD}.fits`
+- Bands:
   - CCD 1: Blue (~4713 Å)
   - CCD 2: Green (~5648 Å)  
   - CCD 3: Red (~6478 Å)
   - CCD 4: IR (~7585 Å)
 
-### Metadados FITS
-- TEFF_R: Temperatura efetiva
-- LOGG_R: log(g) - gravidade superficial
-- FE_H_R: Metalicidade [Fe/H]
-- A_FE_R: Abundância [α/Fe]
-- SNR_AA: Razão sinal-ruído em Ångströms
-- RV: Velocidade radial
-- E_RV: Erro na velocidade radial
+### FITS Metadata
+- TEFF_R: Effective temperature
+- LOGG_R: log(g) - surface gravity
+- FE_H_R: Metallicity [Fe/H]
+- A_FE_R: Abundance [α/Fe]
+- SNR_AA: Signal-to-noise ratio in Ångströms
+- RV: Radial velocity
+- E_RV: Error in radial velocity
 
-## 🔬 Classificação Espectral
-
-A classificação segue a sequência OBAFGKM baseada na temperatura efetiva (Teff):
-
-| Tipo | Teff (K) |
-|------|----------|
-| O | ≥ 25000 |
-| B | 10000 - 24999 |
-| A | 7500 - 9999 |
-| F | 6000 - 7499 |
-| G | 5000 - 5999 |
-| K | 3500 - 4999 |
-| M | < 3500 |
-
-## 🌐 Deploy na Streamlit Cloud
-
-A forma mais simples e recomendada para fazer deploy da aplicação.
-
-### Passos
-
-1. **Faça push do repositório para GitHub**
-   ```bash
-   git add .
-   git commit -m "Add SpectraViewer"
-   git push origin main
-   ```
-
-2. **Acesse Streamlit Cloud**
-   - Vá para https://streamlit.io/cloud
-   - Clique em "Sign up" e autentique com sua conta GitHub
-
-3. **Crie uma nova app**
-   - Clique em "New app"
-   - Selecione seu repositório `spectraviewer`
-   - Configure:
-     - Main file path: `spectraviewer.py`
-     - Python version: 3.9+
-
-4. **Deploy**
-   - A aplicação será deployada automaticamente
-   - URL: `https://{seu-username}-spectraviewer-{random}.streamlit.app`
-
-### Dados FITS
-
-Para funcionar na nuvem, você tem duas opções:
-
-**Opção 1 - Incluir no repositório** (recomendado para datasets pequenos)
-```bash
-git lfs install  # GitHub Large File Storage
-git lfs track "data/spectra/**/*.fits"
-git add data/spectra/
-git commit -m "Add FITS spectra"
-```
-
-**Opção 2 - Usar armazenamento remoto** (recomendado para datasets grandes)
-Adicione ao `spectraviewer.py`:
-```python
-import s3fs  # para Amazon S3
-
-SPECTRA_ROOT = s3fs.S3FileSystem().open("s3://bucket/spectra/")
-```
-
-## 📚 Referências
+## 📚 References
 
 - [GALAH DR4 Survey](https://www.galah-survey.org/)
 - [Gaia-ESO Spectroscopic Survey](http://www.gaia-eso.eu/)
@@ -143,61 +80,62 @@ SPECTRA_ROOT = s3fs.S3FileSystem().open("s3://bucket/spectra/")
 - [Plotly Documentation](https://plotly.com/python/)
 - [Astropy FITS](https://docs.astropy.org/en/stable/io/fits/)
 
-## 🛠️ Desenvolvimento
+## 🛠️ Development
 
-### Estrutura do Projeto
+### Project Structure
 ```
 spectraviewer/
-├── spectraviewer.py          # Aplicação principal
-├── requirements.txt          # Dependências Python
-├── class.txt                 # Catálogo de classificação espectral
-├── data/                     # Dados (não incluído, baixe separadamente)
-│   ├── spectra/              # Arquivos FITS dos espectros
-│   └── galah_dr4_lines.csv   # Linhas espectrais de referência
-├── venv/                     # Ambiente virtual
-└── README.md                 # Este arquivo
+├── spectraviewer.py          # Main application
+├── requirements.txt          # Python dependencies
+├── class.txt                 # Spectral classification catalog
+├── spectra/                  # Data (included with samples)
+│   └── galah/
+│       └── dr4/
+│           └── spectra/      # FITS spectrum files
+├── venv/                     # Virtual environment
+└── README.md                 # This file
 ```
 
-### Adicionar Novas Funcionalidades
+### Adding New Features
 
-1. Modifique `spectraviewer.py`
-2. Teste localmente: `streamlit run spectraviewer.py`
-3. Commit e push para GitHub
+1. Modify `spectraviewer.py`
+2. Test locally: `streamlit run spectraviewer.py`
+3. Commit and push to GitHub
 
 ## 🐛 Troubleshooting
 
-### "File not found" para espectros
-- Verifique se os arquivos FITS existem em `data/spectra/galah/dr4/spectra/hermes/com/`
-- Confirme que o `sobject_id` está correto (15 dígitos)
+### "File not found" for spectra
+- Verify that FITS files exist in `spectra/galah/dr4/spectra/hermes/com/`
+- Confirm that the `sobject_id` is correct (15 digits)
 
-### Linhas espectrais não aparecem
-- Verifique se `data/galah_dr4_lines.csv` existe
-- Confirme que as wavelengths das linhas estão dentro do intervalo de cobertura do espectro
+### Spectral lines do not appear
+- Verify that the line list file exists
+- Confirm that the wavelengths of the lines are within the spectral coverage range
 
-### Performance lenta
-- Redimensione os gráficos
-- Reduza o número de grupos de linhas selecionados
-- Verifique a velocidade de leitura do disco para arquivos FITS
+### Slow performance
+- Resize the plots
+- Reduce the number of selected line groups
+- Check disk read speed for FITS files
 
-## 📝 Licença
+## 📝 License
 
-Este projeto utiliza dados do GALAH DR4 Survey. Respeite os termos de uso dos dados.
+This project uses data from the GALAH DR4 Survey. Respect the terms of use of the data.
 
-## 👥 Contribuições
+## 👥 Contributions
 
-Contribuições são bem-vindas! Por favor:
+Contributions are welcome! Please:
 
-1. Faça fork do repositório
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+1. Fork the repository
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📧 Suporte
+## 📧 Support
 
-Para questões, bug reports ou sugestões, abra uma issue no repositório.
+For questions, bug reports or suggestions, open an issue in the repository.
 
 ---
 
-**Última atualização**: Maio 2026  
-**Versão**: 1.0.0
+**Last update**: May 2026  
+**Version**: 1.0.0
