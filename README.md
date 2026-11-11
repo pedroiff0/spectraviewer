@@ -1,141 +1,176 @@
-# SpectraViewer - GALAH DR4 Spectra Viewer
+# SpectraViewer
 
-An interactive viewer for spectra from the GALAH DR4 catalog (Galactic Archeology with Hermes Data Release 4). The application allows you to explore stellar spectra intuitively, with support for multiple bands, reference spectral lines, and automatic spectral classification.
+[![CI](https://github.com/pedroiff0/spectraviewer/actions/workflows/ci.yml/badge.svg)](https://github.com/pedroiff0/spectraviewer/actions/workflows/ci.yml)
+[![Licença](https://img.shields.io/github/license/pedroiff0/spectraviewer)](LICENSE)
+[![Estrelas](https://img.shields.io/github/stars/pedroiff0/spectraviewer?style=flat&logo=github)](https://github.com/pedroiff0/spectraviewer/stargazers)
+[![Status](https://img.shields.io/badge/status-ativo-informational)](#status)
 
-## 🌟 Features
+Visualizador interativo de espectros estelares do catálogo GALAH DR4 (Galactic Archaeology with HERMES), com as quatro bandas, linhas espectrais de referência e metadados estelares.
 
-- **Interactive Visualization**: Plotting of 4 spectral bands (Blue, Green, Red, IR) with interactive interface
-- **Spectral Lines**: Overlay of reference spectral lines from GALAH DR4 with groups (CNO, Alpha-process, Iron-peak, etc.)
-- **Local Data**: Direct reading of FITS files from the local dataset
-- **Stellar Metadata**: Display of information such as Teff, log(g), [Fe/H] and other abundances
+Este projeto faz parte do [portfólio](https://portfolio.phrandrade.com/#spectraviewer) de Pedro Rocha.
 
-## 📋 Requirements
+## Sumário
 
-- Python 3.8+
-- GALAH DR4 Datasets (FITS files)
+- [Resumo](#resumo)
+- [Contexto](#contexto)
+- [Tecnologias](#tecnologias)
+- [Começando](#começando)
+- [Como usar](#como-usar)
+- [Reprodução dos resultados](#reprodução-dos-resultados)
+- [Metodologia](#metodologia)
+- [Dados](#dados)
+- [Estrutura do repositório](#estrutura-do-repositório)
+- [Trabalhando no projeto](#trabalhando-no-projeto)
+- [Status](#status)
+- [Como citar](#como-citar)
+- [Autores](#autores)
+- [Licença](#licença)
 
-## ⚙️ Installation
+## Resumo
 
-### 1. Clone the repository
+Inspecionar espectros do GALAH DR4 exige abrir arquivos FITS um a um, e a identificação de linhas é manual. O SpectraViewer lê os FITS locais, plota as quatro bandas do HERMES (azul, verde, vermelha e infravermelha), sobrepõe grupos de linhas de referência (CNO, processo alfa, pico do ferro) e mostra Teff, log g, [Fe/H] e outras abundâncias da estrela escolhida. Limitação: depende dos arquivos FITS locais, que não são redistribuídos integralmente.
+
+## Contexto
+
+Ferramenta de apoio à pesquisa em arqueologia galáctica, usada para inspecionar visualmente estrelas candidatas do GALAH DR4.
+
+### Objetivos
+
+- Explorar espectros de forma interativa, sem scripts ad hoc.
+- Conferir linhas e abundâncias de uma estrela em uma tela.
+
+## Tecnologias
+
+## Tecnologias
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
+![Make](https://img.shields.io/badge/Make-6D00CC?style=flat&logo=gnu&logoColor=white)
+
+## Começando
+
+### Pré-requisitos
+
+- Python 3.8 ou superior.
+- Arquivos FITS do GALAH DR4 (amostras incluídas em `spectra/`).
+
+### Instalação
+
 ```bash
 git clone https://github.com/pedroiff0/spectraviewer.git
 cd spectraviewer
-```
-
-### 2. Create a virtual environment
-```bash
 python3 -m venv venv
-source venv/bin/activate  # macOS/Linux
-# or
-venv\Scripts\activate  # Windows
-```
-
-### 3. Install dependencies
-```bash
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 🚀 Usage
-
-### Run locally
+### Conferindo que funcionou
 
 ```bash
 streamlit run spectraviewer.py
 ```
 
-The application will open at `http://localhost:8501`.
+Saída esperada: o aplicativo abre em `http://localhost:8501`.
 
-### Using the application
+## Como usar
 
-1. **Search**: Select a star from the dropdown menu
-2. **View Spectrum**: The 4-band spectrum will be loaded and displayed
-3. **Spectral Lines**: Select groups of spectral lines to overlay on the spectrum
-4. **Labels**: Enable the "Show line labels" option to display line identifications
+### Exemplo 1: ver o espectro de uma estrela
 
-## 📊 Data Structure
+1. Escolha a estrela no menu.
+2. O espectro das quatro bandas é carregado.
+3. Marque os grupos de linhas a sobrepor.
+4. Ative "Show line labels" para ver a identificação das linhas.
 
-### FITS Spectra
-- Location: `spectra/galah/dr4/spectra/hermes/com/{YYMMDD}/`
-- File: `{sobject_id}{CCD}.fits`
-- Bands:
-  - CCD 1: Blue (~4713 Å)
-  - CCD 2: Green (~5648 Å)  
-  - CCD 3: Red (~6478 Å)
-  - CCD 4: IR (~7585 Å)
+### Opções principais
 
-### FITS Metadata
-- TEFF_R: Effective temperature
-- LOGG_R: log(g) - surface gravity
-- FE_H_R: Metallicity [Fe/H]
-- A_FE_R: Abundance [α/Fe]
-- SNR_AA: Signal-to-noise ratio in Ångströms
-- RV: Radial velocity
-- E_RV: Error in radial velocity
+| Opção | Efeito |
+| :--- | :--- |
+| Seleção de estrela | Carrega os FITS das quatro CCDs |
+| Grupos de linhas | Sobrepõe CNO, processo alfa, pico do ferro e outros |
+| Rótulos | Mostra a identificação de cada linha |
 
-## 📚 References
+## Reprodução dos resultados
 
-- [GALAH DR4 Survey](https://www.galah-survey.org/)
-- [Gaia-ESO Spectroscopic Survey](http://www.gaia-eso.eu/)
-- [Streamlit Documentation](https://docs.streamlit.io/)
-- [Plotly Documentation](https://plotly.com/python/)
-- [Astropy FITS](https://docs.astropy.org/en/stable/io/fits/)
+O aplicativo é determinístico: a mesma estrela e os mesmos FITS geram o mesmo gráfico. Dependências fixadas em `requirements.txt`.
 
-## 🛠️ Development
+## Metodologia
 
-### Project Structure
+Os espectros são lidos com Astropy, organizados por CCD e plotados com Plotly dentro do Streamlit.
+
+```mermaid
+flowchart LR
+    A[FITS GALAH DR4] --> B[Astropy]
+    B --> C[Plotly]
+    C --> D[Streamlit]
 ```
+
+## Dados
+
+| Item | Local |
+| :--- | :--- |
+| Espectros | `spectra/galah/dr4/spectra/hermes/com/{AAMMDD}/{sobject_id}{CCD}.fits` |
+| Bandas | CCD 1 azul (~4713 Å), 2 verde (~5648 Å), 3 vermelha (~6478 Å), 4 infravermelha (~7585 Å) |
+| Metadados | `TEFF_R`, `LOGG_R`, `FE_H_R`, `A_FE_R`, `SNR_AA`, `RV`, `E_RV` |
+| Catálogo de classes | `class.txt` |
+
+O GALAH DR4 completo é obtido em [galah-survey.org](https://www.galah-survey.org/).
+
+## Estrutura do repositório
+
+```text
 spectraviewer/
-├── spectraviewer.py          # Main application
-├── requirements.txt          # Python dependencies
-├── class.txt                 # Spectral classification catalog
-├── spectra/                  # Data (included with samples)
-│   └── galah/
-│       └── dr4/
-│           └── spectra/      # FITS spectrum files
-├── venv/                     # Virtual environment
-└── README.md                 # This file
+├── spectraviewer.py   aplicativo Streamlit
+├── requirements.txt   dependências
+├── class.txt          catálogo de classificação espectral
+└── spectra/           amostras de espectros FITS
 ```
 
-### Adding New Features
+## Trabalhando no projeto
 
-1. Modify `spectraviewer.py`
-2. Test locally: `streamlit run spectraviewer.py`
-3. Commit and push to GitHub
+### Ambiente de desenvolvimento
 
-## 🐛 Troubleshooting
+```bash
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+```
 
-### "File not found" for spectra
-- Verify that FITS files exist in `spectra/galah/dr4/spectra/hermes/com/`
-- Confirm that the `sobject_id` is correct (15 digits)
+### Fluxo de trabalho
 
-### Spectral lines do not appear
-- Verify that the line list file exists
-- Confirm that the wavelengths of the lines are within the spectral coverage range
+1. Crie uma branch a partir de `main`: `git checkout -b feat/<assunto-curto>`.
+2. Commits no padrão [Conventional Commits](https://www.conventionalcommits.org/pt-br/).
+3. Teste com ao menos uma estrela de amostra antes do pull request.
+4. Registre a mudança na seção `Unreleased` de [CHANGELOG.md](CHANGELOG.md).
 
-### Slow performance
-- Resize the plots
-- Reduce the number of selected line groups
-- Check disk read speed for FITS files
+### Convenções
 
-## 📝 License
+Código em Python com nomes em inglês e documentação em português.
 
-This project uses data from the GALAH DR4 Survey. Respect the terms of use of the data.
+## Status
 
-## 👥 Contributions
+Estado atual: **ativo**.
 
-Contributions are welcome! Please:
+- [x] Visualização das quatro bandas e linhas de referência
+- [ ] Exportar o gráfico e a lista de linhas
+- [ ] Comparar duas estrelas lado a lado
 
-1. Fork the repository
-2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Como citar
 
-## 📧 Support
+Use o arquivo [CITATION.cff](CITATION.cff) (botão "Cite this repository" do GitHub). Cite também o GALAH DR4 (Buder et al.).
 
-For questions, bug reports or suggestions, open an issue in the repository.
+## Autores
 
----
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/pedroiff0"><img src="https://github.com/pedroiff0.png?size=120" width="96" height="96" alt="Pedro Henrique Rocha de Andrade" /><br /><sub><b>Pedro Henrique Rocha de Andrade</b></sub></a><br />Autor e mantenedor</td>
+  </tr>
+</table>
 
-**Last update**: May 2026  
-**Version**: 1.0.0
+### Contribuidores
+
+[![Contribuidores](https://contrib.rocks/image?repo=pedroiff0/spectraviewer)](https://github.com/pedroiff0/spectraviewer/graphs/contributors)
+
+## Licença
+
+MIT. Veja [LICENSE](LICENSE).
+
+Pedro Henrique Rocha de Andrade, 2026.
