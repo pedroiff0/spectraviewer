@@ -20,7 +20,7 @@ Este projeto faz parte do [portfólio](https://portfolio.phrandrade.com/#spectra
 - [Trabalhando no projeto](#trabalhando-no-projeto)
 - [Status](#status)
 - [Como citar](#como-citar)
-- [Autores](#autores)
+- [Autor](#autor)
 - [Licença](#licença)
 
 ## Resumo
@@ -154,7 +154,7 @@ Estado atual: **ativo**.
 
 Use o arquivo [CITATION.cff](CITATION.cff) (botão "Cite this repository" do GitHub). Cite também o GALAH DR4 (Buder et al.).
 
-## Autores
+## Autor
 
 <table>
   <tr>
