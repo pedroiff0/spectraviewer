@@ -1,9 +1,6 @@
 # SpectraViewer
 
-[![CI](https://github.com/pedroiff0/spectraviewer/actions/workflows/ci.yml/badge.svg)](https://github.com/pedroiff0/spectraviewer/actions/workflows/ci.yml)
-[![Licença](https://img.shields.io/github/license/pedroiff0/spectraviewer)](LICENSE)
-[![Estrelas](https://img.shields.io/github/stars/pedroiff0/spectraviewer?style=flat&logo=github)](https://github.com/pedroiff0/spectraviewer/stargazers)
-[![Status](https://img.shields.io/badge/status-ativo-informational)](#status)
+[![CI](https://github.com/pedroiff0/spectraviewer/actions/workflows/ci.yml/badge.svg)](https://github.com/pedroiff0/spectraviewer/actions/workflows/ci.yml) [![Licença](https://img.shields.io/github/license/pedroiff0/spectraviewer)](LICENSE) [![Estrelas](https://img.shields.io/github/stars/pedroiff0/spectraviewer?style=flat&logo=github)](https://github.com/pedroiff0/spectraviewer/stargazers) [![Status](https://img.shields.io/badge/status-ativo-informational)](#status)
 
 Visualizador interativo de espectros estelares do catálogo GALAH DR4 (Galactic Archaeology with HERMES), com as quatro bandas, linhas espectrais de referência e metadados estelares.
 
