@@ -182,6 +182,8 @@ Dúvidas e pedidos de ajuda: veja [SUPPORT.md](SUPPORT.md).
 
 [![Commits por mês](https://img.shields.io/github/commit-activity/m/pedroiff0/spectraviewer?logo=github)](https://github.com/pedroiff0/spectraviewer/graphs/commit-activity) [![Último commit](https://img.shields.io/github/last-commit/pedroiff0/spectraviewer?logo=git&logoColor=white)](https://github.com/pedroiff0/spectraviewer/commits) [![Issues](https://img.shields.io/github/issues/pedroiff0/spectraviewer)](https://github.com/pedroiff0/spectraviewer/issues) [![Pull requests](https://img.shields.io/github/issues-pr/pedroiff0/spectraviewer)](https://github.com/pedroiff0/spectraviewer/pulls)
 
+<div align="center">
+
 ## Autor
 
 <table>
@@ -193,6 +195,8 @@ Dúvidas e pedidos de ajuda: veja [SUPPORT.md](SUPPORT.md).
 ### Contribuidores
 
 [![Contribuidores](https://contrib.rocks/image?repo=pedroiff0/spectraviewer)](https://github.com/pedroiff0/spectraviewer/graphs/contributors)
+
+</div>
 
 ## Licença
 
